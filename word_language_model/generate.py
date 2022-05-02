@@ -11,6 +11,8 @@ import data
 
 parser = argparse.ArgumentParser(description='PyTorch Wikitext-2 Language Model')
 # Model parameters.
+parser.add_argument('--input', type=str, action='store_true',
+                    help="User defined Prompt for Text generation")
 parser.add_argument('--data', type=str, default='./data/wikitext-2',
                     help='location of the data corpus')
 parser.add_argument('--checkpoint', type=str, default='./model.pt',
@@ -40,10 +42,12 @@ device = torch.device("cuda" if args.cuda else "cpu")
 if args.temperature < 1e-3:
     parser.error("--temperature has to be greater or equal 1e-3.")
 
+# loads trained model:
 with open(args.checkpoint, 'rb') as f:
     model = torch.load(f, map_location=device)
 model.eval()
 
+# create instance of Corpus Class --> tokenized train, val and test file:
 corpus = data.Corpus(args.data)
 ntokens = len(corpus.dictionary)
 
