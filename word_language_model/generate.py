@@ -92,8 +92,13 @@ with open(args.outf, 'w') as outf:
                 input.fill_(word_idx)
 
             word = corpus.dictionary.idx2word[word_idx]
-
+            #print(word)
+            if c > 0:
+                for t in input_t:
+                    outf.write(t + ' ')
+                c -= 1
             outf.write(word + ('\n' if i % 20 == 19 else ' '))
+
 
             if i % args.log_interval == 0:
                 print('| Generated {}/{} words'.format(i, args.words))
