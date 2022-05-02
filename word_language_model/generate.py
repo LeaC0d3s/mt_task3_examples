@@ -55,14 +55,16 @@ is_transformer_model = hasattr(model, 'model_type') and model.model_type == 'Tra
 if not is_transformer_model:
     hidden = model.init_hidden(1)
 
+# Check if input argument is given:
 if args.input:
-    print(type(args.input))
+    #print(type(args.input))
 
     idx_list = []
     input_t = args.input.split()
     len_t = len(input_t)
     c = 1
     print(input_t)
+    #check if all input words are in the vocabulary:
     for t in input_t:
         if t not in corpus.dictionary.word2idx:
             print(f"WARNING: the word -{t}- is not in the vocabulary!!")
@@ -77,6 +79,7 @@ else:
 
 with open(args.outf, 'w') as outf:
     with torch.no_grad():  # no tracking history
+        #subtract length of input from the total word to be generated:
         for i in range(args.words-len_t):
             if is_transformer_model:
                 output = model(input, False)
