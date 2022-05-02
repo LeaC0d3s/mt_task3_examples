@@ -87,7 +87,8 @@ with open(args.outf, 'w') as outf:
             else:
                 output, hidden = model(input, hidden)
                 word_weights = output.squeeze().div(args.temperature).exp().cpu()
-                word_idx = torch.multinomial(word_weights, 1)[0]
+                word_idx = torch.multinomial(word_weights, 1)[0].squeeze()
+                #print(word_idx)
                 input.fill_(word_idx)
 
             word = corpus.dictionary.idx2word[word_idx]
