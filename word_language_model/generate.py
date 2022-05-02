@@ -11,7 +11,7 @@ import data
 
 parser = argparse.ArgumentParser(description='PyTorch Wikitext-2 Language Model')
 # Model parameters.
-parser.add_argument('--input', type=str, action='store_true',
+parser.add_argument('--input', type=str, required=False,
                     help="User defined Prompt for Text generation")
 parser.add_argument('--data', type=str, default='./data/wikitext-2',
                     help='location of the data corpus')
