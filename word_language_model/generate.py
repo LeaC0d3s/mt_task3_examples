@@ -6,7 +6,7 @@
 ###############################################################################
 import argparse
 import torch
-
+import sys
 import data
 
 parser = argparse.ArgumentParser(description='PyTorch Wikitext-2 Language Model')
@@ -54,7 +54,26 @@ ntokens = len(corpus.dictionary)
 is_transformer_model = hasattr(model, 'model_type') and model.model_type == 'Transformer'
 if not is_transformer_model:
     hidden = model.init_hidden(1)
-input = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
+
+if args.input:
+    print(type(args.input))
+
+    idx_list = []
+    input_t = args.input.split()
+    len_t = len(input_t)
+    c = 1
+    print(input_t)
+    for t in input_t:
+        if t not in corpus.dictionary.word2idx:
+            print(f"WARNING: the word -{t}- is not in the vocabulary!!")
+            sys.exit()
+        else:
+            idx_list.append([corpus.dictionary.word2idx[t]])
+    input = torch.tensor(idx_list, dtype=torch.long).to(device)
+else:
+    input = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
+    len_t = 0
+    c = 0
 
 with open(args.outf, 'w') as outf:
     with torch.no_grad():  # no tracking history
