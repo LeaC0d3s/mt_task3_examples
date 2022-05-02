@@ -77,7 +77,7 @@ else:
 
 with open(args.outf, 'w') as outf:
     with torch.no_grad():  # no tracking history
-        for i in range(args.words):
+        for i in range(args.words-len_t):
             if is_transformer_model:
                 output = model(input, False)
                 word_weights = output[-1].squeeze().div(args.temperature).exp().cpu()
